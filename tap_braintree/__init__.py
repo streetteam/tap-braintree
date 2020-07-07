@@ -172,10 +172,10 @@ def _sync_disputes(*, disputes):
 
         # Convert currency values to smallest unit
         dispute.amount_disputed = get_amount_as_smallest_currency_unit(
-            dipute.currency_iso_code, Decimal(dispute.amount_disputed)
+            dispute.currency_iso_code, Decimal(dispute.amount_disputed)
         )
         dispute.amount_won = get_amount_as_smallest_currency_unit(
-            dipute.currency_iso_code, Decimal(dispute.amount_won)
+            dispute.currency_iso_code, Decimal(dispute.amount_won)
         )
 
         transformed = transform_row(dispute, load_schema(entity))
