@@ -1,5 +1,7 @@
 import datetime
+
 import pytz
+
 from . import utils
 
 
@@ -26,9 +28,11 @@ def _array(data, items_schema):
 
 
 def _object(data, properties_schema):
-    return {field: _transform_field(getattr(data, field), field_schema)
-            for field, field_schema in properties_schema.items()
-            if hasattr(data, field)}
+    return {
+        field: _transform_field(getattr(data, field), field_schema)
+        for field, field_schema in properties_schema.items()
+        if hasattr(data, field)
+    }
 
 
 def _type_transform(value, type_schema):
@@ -80,7 +84,6 @@ def _transform_field(value, field_schema):
     if isinstance(value, datetime.date):
         dt = datetime.datetime(value.year, value.month, value.day, tzinfo=pytz.UTC)
         value = utils.strftime(dt)
-
 
     value = _type_transform(value, field_schema["type"])
 

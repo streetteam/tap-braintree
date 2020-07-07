@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-
 import os
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 import braintree
 import pytz
-
 import singer
 from singer import utils
 
+from .const import DEFAULT_TIMESTAMP, LOOKBACK_WINDOW_DAYS
+from .currency import get_amount_as_smallest_currency_unit
 from .transform import transform_row
 
 CONFIG = {}
 STATE = {}
-TRAILING_DAYS = timedelta(days=2)
-DEFAULT_TIMESTAMP = "1970-01-01T00:00:00Z"
+TRAILING_DAYS = timedelta(days=LOOKBACK_WINDOW_DAYS)
 
 logger = singer.get_logger()
 
@@ -106,6 +106,11 @@ def sync_transactions(merchant_accounts, gateway):
             if not getattr(row, "updated_at"):
                 row.updated_at = row.created_at
 
+            # Convert currency values to smallest unit
+            row.amount = get_amount_as_smallest_currency_unit(
+                row.currency_iso_code, Decimal(row.amount)
+            )
+
             transformed = transform_row(row, load_schema(entity))
             updated_at = to_utc(row.updated_at)
 
@@ -164,6 +169,15 @@ def _sync_disputes(*, disputes):
 
     for dispute in disputes:
         dispute.transaction_id = dispute.transaction.id
+
+        # Convert currency values to smallest unit
+        dispute.amount_disputed = get_amount_as_smallest_currency_unit(
+            dispute.currency_iso_code, Decimal(dispute.amount_disputed)
+        )
+        dispute.amount_won = get_amount_as_smallest_currency_unit(
+            dispute.currency_iso_code, Decimal(dispute.amount_won)
+        )
+
         transformed = transform_row(dispute, load_schema(entity))
         singer.write_record(entity, transformed, time_extracted=time_extracted)
         row_written_count += 1
