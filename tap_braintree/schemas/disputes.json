@@ -8,10 +8,10 @@
 			"type": "string"
 		},
 		"amount_disputed": {
-			"type": ["null", "number"]
+			"type": ["null", "integer"]
 		},
 		"amount_won": {
-			"type": ["null", "number"]
+			"type": ["null", "integer"]
 		},
 		"case_number": {
 			"type": ["null", "string"]

@@ -22,7 +22,7 @@
             "type": ["null", "string"]
         },
         "amount": {
-            "type": ["null", "number"]
+            "type": ["null", "integer"]
         },
         "payment_instrument_type": {
             "type": ["null", "string"]
