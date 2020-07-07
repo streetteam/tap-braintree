@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-
 import os
 from datetime import datetime, timedelta
 from decimal import Decimal
-from .const import DEFAULT_TIMESTAMP, LOOKBACK_WINDOW_DAYS
-from .currency import get_amount_as_smallest_currency_unit
+
 import braintree
 import pytz
-
 import singer
 from singer import utils
 
+from .const import DEFAULT_TIMESTAMP, LOOKBACK_WINDOW_DAYS
+from .currency import get_amount_as_smallest_currency_unit
 from .transform import transform_row
 
 CONFIG = {}
@@ -108,7 +107,9 @@ def sync_transactions(merchant_accounts, gateway):
                 row.updated_at = row.created_at
 
             # Convert currency values to smallest unit
-            row.amount = get_amount_as_smallest_currency_unit(row.currency_iso_code, Decimal(row.amount))
+            row.amount = get_amount_as_smallest_currency_unit(
+                row.currency_iso_code, Decimal(row.amount)
+            )
 
             transformed = transform_row(row, load_schema(entity))
             updated_at = to_utc(row.updated_at)
@@ -170,8 +171,12 @@ def _sync_disputes(*, disputes):
         dispute.transaction_id = dispute.transaction.id
 
         # Convert currency values to smallest unit
-        dispute.amount_disputed = get_amount_as_smallest_currency_unit(dipute.currency_iso_code, Decimal(dispute.amount_disputed))
-        dispute.amount_won = get_amount_as_smallest_currency_unit(dipute.currency_iso_code, Decimal(dispute.amount_won))
+        dispute.amount_disputed = get_amount_as_smallest_currency_unit(
+            dipute.currency_iso_code, Decimal(dispute.amount_disputed)
+        )
+        dispute.amount_won = get_amount_as_smallest_currency_unit(
+            dipute.currency_iso_code, Decimal(dispute.amount_won)
+        )
 
         transformed = transform_row(dispute, load_schema(entity))
         singer.write_record(entity, transformed, time_extracted=time_extracted)

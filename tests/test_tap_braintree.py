@@ -1,12 +1,12 @@
 import unittest
-import tap_braintree
+from datetime import datetime, timedelta
+
 import pytz
 
-from datetime import datetime, timedelta
+import tap_braintree
 
 
 class TestDateRangeUtility(unittest.TestCase):
-
     def test_daterange_normal(self):
         """
         When given two dates 7 days apart, function should return
@@ -23,17 +23,40 @@ class TestDateRangeUtility(unittest.TestCase):
 
         self.assertEqual(
             list(tap_braintree.daterange(start_date, end_date)),
-
             [
-                 (datetime(2018, 1, 1, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 9, 0, 0, tzinfo=pytz.UTC))
-            ]
+                (
+                    datetime(2018, 1, 1, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 9, 0, 0, tzinfo=pytz.UTC),
+                ),
+            ],
         )
 
     def test_daterange_different_times(self):
@@ -48,20 +71,42 @@ class TestDateRangeUtility(unittest.TestCase):
 
         self.assertEqual(
             list(tap_braintree.daterange(start_date, end_date)),
-
             [
-                 (datetime(2018, 1, 1, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC))
-                ,(datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC), datetime(2018, 1, 9, 0, 0, tzinfo=pytz.UTC))
-            ]
+                (
+                    datetime(2018, 1, 1, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 2, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 3, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 4, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 5, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 6, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 7, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC),
+                ),
+                (
+                    datetime(2018, 1, 8, 0, 0, tzinfo=pytz.UTC),
+                    datetime(2018, 1, 9, 0, 0, tzinfo=pytz.UTC),
+                ),
+            ],
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-
